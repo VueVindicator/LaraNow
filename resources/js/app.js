@@ -8,6 +8,27 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import VueRouter from 'vue-router';
+import { Form, HasError, AlertError } from 'vform';
+
+window.Form = Form
+
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+Vue.use(VueRouter);
+
+let routes = [
+    {path: '/dashboard', component:  require('./components/dashboard.vue').default},
+    {path: '/profile', component: require('./components/profile.vue').default},
+    {path: '/user', component: require('./components/user.vue').default}
+]
+
+const router = new VueRouter({
+    routes
+})
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -29,4 +50,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    router
 });
