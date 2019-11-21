@@ -55,7 +55,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form @submit.prevent="createUser" @keydown="form.onKeydown($event)">
+            <form @submit.prevent="createUser">
             <div class="modal-body">
                 <div class="form-group">
                     <label>Name</label>
@@ -80,9 +80,9 @@
                     <select name="type" v-model="form.type" id="type" class="form-control" :class="{
                         'is-valid': form.errors.has('type') }">
                         <option value="">Select User Role</option>
-                        <option value="admin"></option>
-                        <option value="user"></option>
-                        <option value="author"></option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                        <option value="author">Author</option>
                     </select>
                     <has-error :form="form" field="type"></has-error>
                 </div>
@@ -90,12 +90,12 @@
                     <label>Password</label>
                     <input v-model="form.password" type="password" name="password" id="password" class="form-control" :class="{
                         'is-valid': form.errors.has('password') }">
-                        <has-error :form="form" field="password"></has-error>
+                      <has-error :form="form" field="password"></has-error>
                 </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Create User</button>
+              <button type="submit" class="btn btn-primary">Create User</button>
             </div>
         </form>
           </div>
@@ -121,7 +121,7 @@
          methods: {
              createUser(){
                  // Submit the form via a POST request
-                this.form.post('/login');
+                this.form.post('api/user');
              }
          },
         mounted() {

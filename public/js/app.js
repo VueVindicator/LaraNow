@@ -2076,7 +2076,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     createUser: function createUser() {
       // Submit the form via a POST request
-      this.form.post('/login');
+      this.form.post('api/user');
     }
   },
   mounted: function mounted() {
@@ -38588,9 +38588,6 @@ var render = function() {
                     submit: function($event) {
                       $event.preventDefault()
                       return _vm.createUser($event)
-                    },
-                    keydown: function($event) {
-                      return _vm.form.onKeydown($event)
                     }
                   }
                 },
@@ -38763,11 +38760,17 @@ var render = function() {
                               _vm._v("Select User Role")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "admin" } }),
+                            _c("option", { attrs: { value: "admin" } }, [
+                              _vm._v("Admin")
+                            ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "user" } }),
+                            _c("option", { attrs: { value: "user" } }, [
+                              _vm._v("User")
+                            ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "author" } })
+                            _c("option", { attrs: { value: "author" } }, [
+                              _vm._v("Author")
+                            ])
                           ]
                         ),
                         _vm._v(" "),
@@ -38947,7 +38950,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
         [_vm._v("Create User")]
       )
     ])
