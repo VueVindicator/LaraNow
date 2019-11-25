@@ -51,7 +51,8 @@ x<template>
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="add-user">Add New User</h5>
+              <h5 v-show="!editMode" class="modal-title" id="add-user">Add New User</h5>
+              <h5 v-show="editMode" class="modal-title" id="add-user">Update User's Info</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -96,7 +97,7 @@ x<template>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button v-show="editMode" type="submit" class="btn btn-primary">Update</button>
+              <button v-show="editMode" @click="updateUser()" type="submit" class="btn btn-primary">Update</button>
               <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
@@ -113,6 +114,7 @@ x<template>
                editMode: false,
                 users: {},
                 form: new Form({
+                  id: '',
                   name: '',
                   email: '',
                   password: '',
@@ -123,8 +125,25 @@ x<template>
              }
          },
          methods: {
-          updateUser(){},
+          updateUser(){
+            this.$Progress.start();
+            this.form.put("api/user/"+this.form.id)
+            .then(() => {
+              $('#add-new').modal('hide');
+              Swal.fire(
+                'Updated!',
+                'Your Information has been Updated.',
+                'success'
+              )
+              this.$Progress.finish();
+              Fire.$emit('AfterCreate');
+            })
+            .catch(() => {
+              this.$Progress.fail();
+            });
+          },
           editModal(user){
+            this.editMode = true;
             this.form.reset();
             $('#add-new').modal('show');
             this.form.fill(user);
