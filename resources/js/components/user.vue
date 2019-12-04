@@ -96,7 +96,7 @@ x<template>
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">Close</button>
               <button v-show="editMode" @click="updateUser()" type="submit" class="btn btn-primary">Update</button>
               <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
             </div>
@@ -153,6 +153,9 @@ x<template>
             this.form.reset();
             $('#add-new').modal('show');
           },
+          closeModal(){
+            this.form.errors.errors = [];
+          },
           deleteUser(id){
             Swal.fire({
               title: 'Are you sure?',
@@ -185,6 +188,7 @@ x<template>
             this.$Progress.start();
             this.form.post("api/user")
             .then(() => {
+            this.$Progress.finish();
             Fire.$emit('AfterCreate');
             $('#add-new').modal('hide');
 
@@ -193,9 +197,10 @@ x<template>
               title: 'User Added Successfully'
             })
 
-            this.$Progress.finish();
             })
-            .catch(() => {})   
+            .catch(() => {
+              this.$Progress.fail();
+            })   
           }
          },
         mounted() {
