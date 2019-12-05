@@ -2908,25 +2908,32 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateProfile: function updateProfile(e) {
+      var _this = this;
+
       var file = e.target.files[0];
       console.log(file);
       var reader = new FileReader();
 
-      reader.onloadend = function () {//console.log('Result', reader.result)
+      reader.onloadend = function (file) {
+        //console.log('Result', reader.result)
+        _this.form.photo = reader.result;
       };
 
       reader.readAsDataURL(file);
+    },
+    updateInfo: function updateInfo() {
+      this.form.put('api/profile').then(function () {})["catch"](function () {});
     }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     axios.get("api/profile").then(function (_ref) {
       var data = _ref.data;
-      return _this.form.fill(data);
+      return _this2.form.fill(data);
     });
   }
 });
@@ -62249,7 +62256,24 @@ var render = function() {
                     _vm._v(" "),
                     _vm._m(3),
                     _vm._v(" "),
-                    _vm._m(4)
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            attrs: { type: "submit" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.updateInfo($event)
+                              }
+                            }
+                          },
+                          [_vm._v("Submit")]
+                        )
+                      ])
+                    ])
                   ])
                 ]
               )
@@ -62441,20 +62465,6 @@ var staticRenderFns = [
             _c("a", { attrs: { href: "#" } }, [_vm._v("terms and conditions")])
           ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
-      _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-danger", attrs: { type: "submit" } },
-          [_vm._v("Submit")]
-        )
       ])
     ])
   }
