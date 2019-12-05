@@ -93,13 +93,15 @@
                           <div class="form-group row">
                             <label for="inputName" class="col-sm-2 col-form-label" >Name</label>
                             <div class="col-sm-10">
-                              <input type="email" class="form-control" id="inputName" placeholder="Name" v-model="form.name">
+                              <input type="email" class="form-control" id="inputName" placeholder="Name" v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }">
+                              <has-error :form="form" field="name"></has-error>
                             </div>
                           </div>
                           <div class="form-group row">
                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                              <input type="email" class="form-control" id="inputEmail" placeholder="Email" v-model="form.email">
+                              <input type="email" class="form-control" id="inputEmail" placeholder="Email" v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }">
+                              <has-error :form="form" field="email"></has-error>
                             </div>
                           </div>
                           <div class="form-group row">
@@ -115,9 +117,10 @@
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                            <label for="password" class="col-sm-2 col-form-label">Password (Leave empty if not changing)</label>
                             <div class="col-sm-10">
-                              <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                              <input type="password" class="form-control" id="password" placeholder="Password" v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }">
+                              <has-error :form="form" field="password"></has-error>
                             </div>
                           </div>
                           <div class="form-group row">
