@@ -91,27 +91,27 @@
                       <div class="tab-pane" id="settings">
                         <form class="form-horizontal">
                           <div class="form-group row">
-                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <label for="inputName" class="col-sm-2 col-form-label" >Name</label>
                             <div class="col-sm-10">
-                              <input type="email" class="form-control" id="inputName" placeholder="Name">
+                              <input type="email" class="form-control" id="inputName" placeholder="Name" v-model="form.name">
                             </div>
                           </div>
                           <div class="form-group row">
                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                              <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                              <input type="email" class="form-control" id="inputEmail" placeholder="Email" v-model="form.email">
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                            <label for="bio" class="col-sm-2 col-form-label">Bio</label>
                             <div class="col-sm-10">
-                              <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                              <textarea class="form-control" id="bio" placeholder="Bio" v-model="form.bio"></textarea>
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                            <label for="profile" class="col-sm-2 col-form-label">Profile Photo</label>
                             <div class="col-sm-10">
-                              <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                              <input type="file" id="profile"@change="updateProfile">
                             </div>
                           </div>
                           <div class="form-group row">
@@ -160,6 +160,17 @@
               bio: '',
               photo: ''
             })
+          }
+        },
+        methods: {
+          updateProfile(e){
+            let file = e.target.files[0];
+            console.log(file);
+            var reader = new FileReader();
+            reader.onloadend = function(){
+              //console.log('Result', reader.result)
+            }
+            reader.readAsDataURL(file);
           }
         },
         mounted() {
