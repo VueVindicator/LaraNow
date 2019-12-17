@@ -74,11 +74,18 @@ class UserController extends Controller
 
 
         $currentPhoto = $user->photo;
+
+
         if($request->photo != $currentPhoto){
             $name = time().'.'.explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
             \Image::make($request->photo)->save(public_path('img/profile/').$name);
 
             $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('img/profile/').$currentPhoto;
+            if(file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
         }
 
 

@@ -7,7 +7,7 @@
                 <div class="card card-primary card-outline">
                   <div class="card-body box-profile">
                     <div class="text-center">
-                      <img class="profile-user-img img-fluid img-circle" src="/img/profile.png" alt="User profile picture">
+                      <img class="profile-user-img img-fluid img-circle" :src="getUserPhoto()" alt="User profile picture">
                     </div>
     
                     <h3 class="profile-username text-center">Nina Mcintire</h3>
@@ -125,15 +125,6 @@
                           </div>
                           <div class="form-group row">
                             <div class="offset-sm-2 col-sm-10">
-                              <div class="checkbox">
-                                <label>
-                                  <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <div class="offset-sm-2 col-sm-10">
                               <button type="submit" class="btn btn-danger" @click.prevent="updateInfo">Submit</button>
                             </div>
                           </div>
@@ -166,11 +157,21 @@
           }
         },
         methods: {
+          getUserPhoto(){
+            let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/" + this.form.photo;
+            return photo;
+          },
           updateInfo(){
             this.$Progress.start();
             this.form.put('api/profile')
             .then(() => {
+              Fire.$emit('AfterCreate');
               this.$Progress.finish();
+              Toast.fire({
+              type: 'success',
+              title: 'Profile Updated Successfully'
+            })
+
             })
             .catch(() => {
               this.$Progress.fail();
@@ -199,6 +200,9 @@
         },
         mounted() {
             console.log('Component mounted.');
+            Fire.$on('AfterCreate', () => {
+              this.updateInfo();
+            })
         },
 
         created() {

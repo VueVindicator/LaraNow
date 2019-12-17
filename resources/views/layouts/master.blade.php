@@ -184,6 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </router-link>
             </li>
+            @can('isAdmin')
             <li class="nav-item">
               <router-link to="/developer" class="nav-link">
                 <i class="nav-icon fas fa-cogs text-blue"></i>
@@ -191,7 +192,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   Developer
                 </p>
               </router-link>
-          </li>
+            </li>
+            @endcan
             <li class="nav-item has-treeview">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-cog text-purple"></i>
@@ -203,11 +205,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <router-link to="/user" class="nav-link">
-                  <i class="fas fa-users"></i>
+                  <i class="fas fa-circle nav-icon"></i>
                   <p>Users</p>
                 </router-link>
               </li>
             </ul>
+            </li>
             <li class="nav-item">
 
                 <a class="nav-link" href="{{ route('logout') }}"
@@ -221,7 +224,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     @csrf
                 </form>
             </li>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
