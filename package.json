@@ -27,6 +27,7 @@
         "@fortawesome/fontawesome": "^1.1.8",
         "@fortawesome/fontawesome-free": "^5.11.2",
         "admin-lte": "^3.0.0-alpha.2",
+        "laravel-vue-pagination": "^2.3.1",
         "moment": "^2.24.0",
         "sweetalert2": "^9.3.17",
         "venobox": "^1.8.6",

@@ -36,16 +36,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -193,7 +191,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </p>
               </router-link>
             </li>
-            @endcan
             <li class="nav-item has-treeview">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-cog text-purple"></i>
@@ -210,6 +207,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </router-link>
               </li>
             </ul>
+            </li>
+            @endcan
+            <li class="nav-item">
+                <router-link to="/invoice" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt text-blue"></i>
+                  <p>
+                    Invoice
+                  </p>
+                </router-link>
             </li>
             <li class="nav-item">
 
@@ -263,6 +269,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
+
+@auth
+<script>
+  window.user = @json(auth()->user());
+</script>
+@endauth
 <script src="/js/app.js"></script>
 </body>
 </html>

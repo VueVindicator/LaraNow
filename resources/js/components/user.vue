@@ -1,6 +1,6 @@
-x<template>
+<template>
     <div class="container">
-        <div class="row">
+        <div class="row" v-if="$gate.isAdminOrAuthor()">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
@@ -23,7 +23,7 @@ x<template>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="user in users" :key="user.id">
+                      <tr v-for="user in users.data" :key="user.id">
                         <td>{{ user.id }}</td>
                         <td>{{ user.name | upText }}</td>
                         <td>{{ user.email }}</td>
@@ -42,9 +42,16 @@ x<template>
                   </table>
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer">
+                  <pagination :data="users" @pagination-change-page="getResults"></pagination>
+                </div>
               </div>
               <!-- /.card -->
             </div>
+        </div>
+
+        <div v-if="!$gate.isAdminOrAuthor()">
+          <not-found/>
         </div>
     <!-- Modal -->
     <div class="modal fade" id="add-new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,7 +118,7 @@ x<template>
     export default {
          data(){
              return{
-               editMode: false,
+                editMode: false,
                 users: {},
                 form: new Form({
                   id: '',
@@ -125,6 +132,12 @@ x<template>
              }
          },
          methods: {
+          getResults(page = 1){
+            axios.get('api/user?page=' + page)
+            .then(response => {
+              this.users = response.data;
+            });
+          },
           updateUser(){
             this.$Progress.start();
             this.form.put("api/user/"+this.form.id)
@@ -176,13 +189,19 @@ x<template>
               )
               Fire.$emit('AfterCreate');
             }).catch(() => {
-              Swal("Failed!", "There was something wrong", "warning");
+              Swal.fire(
+                'Failed!', 
+                'You do not have authority to delete User', 
+                'warning'
+              );
             });
             }
             })
           },
           loadUsers(){
-            axios.get("api/user").then(({ data }) => (this.users = data.data));
+            if(this.$gate.isAdminOrAuthor()){
+              axios.get("api/user").then(({ data }) => (this.users = data));
+            }
           },
           createUser(){
             this.$Progress.start();
@@ -198,12 +217,30 @@ x<template>
             })
 
             })
-            .catch(() => {
+            .catch((response) => {
               this.$Progress.fail();
+              console.log(response);
             })   
           }
          },
-        mounted() {
+        created() {
+          Fire.$on('searching', () => {
+            let query = this.$parent.search;
+            this.$Progress.start();
+            axios.get('api/finduser?q=' + query)
+            .then((data) => {
+              this.$Progress.finish();
+              console.log(data);
+              this.users = data.data;
+            })
+            .catch(() => {
+              this.$Progress.fail();
+              Toast.fire({
+                type: 'error',
+                title: 'Invalid Search query'
+              })
+            })
+          })
             this.loadUsers();
             Fire.$on('AfterCreate', () => {
               this.loadUsers();
